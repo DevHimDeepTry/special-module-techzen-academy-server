@@ -2,18 +2,19 @@ package vn.techzen.academy_pnv_12.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.experimental.*;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
-public class ResponseData<T> {
+public class ApiResponse<T> {
     UUID code;
     String message;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     T data;
 }

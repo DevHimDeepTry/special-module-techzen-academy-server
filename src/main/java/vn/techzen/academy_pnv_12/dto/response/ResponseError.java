@@ -1,10 +1,11 @@
 package vn.techzen.academy_pnv_12.dto.response;
 
-public class ResponseError extends ResponseData{
+import java.util.UUID;
 
-    public ResponseError(
-            int status, String message
-    ) {
-        super(status, message);
+public class ResponseError extends ResponseData<Void> {
+
+    public ResponseError(UUID code, String message) {
+        super(code, message, null);
     }
 }
+
