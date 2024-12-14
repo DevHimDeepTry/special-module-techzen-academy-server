@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import vn.techzen.academy_pnv_12.models.Employee;
 import vn.techzen.academy_pnv_12.repositories.interfaces.IEmployeeRepository;
 import vn.techzen.academy_pnv_12.services.interfaces.IEmployeeService;
+import vn.techzen.academy_pnv_12.dto.exception.AppException;
+import vn.techzen.academy_pnv_12.dto.exception.ErrorCode;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,26 +28,38 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public Employee getEmployeeById(UUID id) {
-        return employeeRepository.findById(id);
+        Employee employee = employeeRepository.findById(id);
+        if (employee == null) {
+            throw new AppException(ErrorCode.USER_NOT_EXIST);
+        }
+        return employee;
     }
 
     @Override
     public Employee addEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+        try {
+            employeeRepository.save(employee);
+            return employee;
+        } catch (Exception e) {
+            throw new AppException(ErrorCode.CREATE_FAILED);
+        }
     }
 
+
     @Override
-    public Employee updateEmployee(Employee employee) {
-        if (employee.getId() == null || employeeRepository.findById(employee.getId()) == null) {
-            throw new IllegalArgumentException("Employee không tồn tại hoặc ID không hợp lệ.");
+    public Employee updateEmployee(Employee updatedEmployee) {
+        if (updatedEmployee.getId() == null || employeeRepository.findById(updatedEmployee.getId()) == null) {
+            throw new AppException(ErrorCode.UPDATE_FAILED);
         }
-        return employeeRepository.save(employee);
+
+        return employeeRepository.save(updatedEmployee);
     }
 
     @Override
     public void deleteEmployee(UUID id) {
-        if (employeeRepository.findById(id) == null) {
-            throw new IllegalArgumentException("Employee không tồn tại.");
+        Employee employee = employeeRepository.findById(id);
+        if (employee == null) {
+            throw new AppException(ErrorCode.USER_NOT_EXIST);
         }
         employeeRepository.deleteById(id);
     }
