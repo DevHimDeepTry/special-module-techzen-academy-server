@@ -34,17 +34,14 @@ public class EmployeeRepository implements IEmployeeRepository {
     @Override
     public Employee save(Employee employee) {
         if (employee.getId() == null) {
-            // Tạo UUID mới nếu employee chưa có ID
             employee.setId(UUID.randomUUID());
         }
-        // Cập nhật hoặc thêm mới employee vào Map
         employeeMap.put(employee.getId(), employee);
         return employee;
     }
 
     @Override
     public void deleteById(UUID id) {
-        // Xóa employee dựa vào ID
         employeeMap.remove(id);
     }
 }

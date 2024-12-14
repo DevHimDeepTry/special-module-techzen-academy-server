@@ -14,6 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum ErrorCode {
+    CREATE_FAILED(UUID.randomUUID(), "Failed to create employee", HttpStatus.INTERNAL_SERVER_ERROR),
+    UPDATE_FAILED(UUID.randomUUID(), "Update Failed", HttpStatus.BAD_REQUEST),
     WORD_NOT_EXIST(UUID.randomUUID(),"Word is not exist!", HttpStatus.NOT_FOUND),
     EMPLOYEE_NOT_EXIST(UUID.randomUUID(), "Employee is not exist!", HttpStatus.NOT_FOUND),
     USER_NOT_EXIST(UUID.randomUUID(), "User is not exist!", HttpStatus.NOT_FOUND),
