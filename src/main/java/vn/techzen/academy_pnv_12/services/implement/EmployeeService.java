@@ -17,7 +17,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmployeeService implements IEmployeeService {
 
-    private IEmployeeRepository employeeRepository;
+    IEmployeeRepository employeeRepository;
 
     @Override
     public List<Employee> getAllEmployees() {
@@ -36,11 +36,17 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public Employee updateEmployee(Employee employee) {
+        if (employee.getId() == null || employeeRepository.findById(employee.getId()) == null) {
+            throw new IllegalArgumentException("Employee không tồn tại hoặc ID không hợp lệ.");
+        }
         return employeeRepository.save(employee);
     }
 
     @Override
     public void deleteEmployee(UUID id) {
+        if (employeeRepository.findById(id) == null) {
+            throw new IllegalArgumentException("Employee không tồn tại.");
+        }
         employeeRepository.deleteById(id);
     }
 }

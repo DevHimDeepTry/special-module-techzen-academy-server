@@ -6,52 +6,45 @@ import vn.techzen.academy_pnv_12.models.Gender;
 import vn.techzen.academy_pnv_12.repositories.interfaces.IEmployeeRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class EmployeeRepository implements IEmployeeRepository {
 
-    private final List<Employee> employees = new ArrayList<>(
-            Arrays.asList(
-                    new Employee(UUID.randomUUID(), "Mr. Duc", LocalDate.of(1990, 1, 1), Gender.MALE, 5000.0, "123456789"),
-                    new Employee(UUID.randomUUID(), "Mr. Him", LocalDate.of(1995, 5, 20), Gender.FEMALE, 6000.0, "987654321")
-            )
-    );
+    private final Map<UUID, Employee> employeeMap = new ConcurrentHashMap<>();
+
+    public EmployeeRepository() {
+        UUID id1 = UUID.randomUUID();
+        UUID id2 = UUID.randomUUID();
+        employeeMap.put(id1, new Employee(id1, "Mr. Duc", LocalDate.of(1990, 1, 1), Gender.MALE, 5000.0, "123456789"));
+        employeeMap.put(id2, new Employee(id2, "Mr. Him", LocalDate.of(1995, 5, 20), Gender.FEMALE, 6000.0, "987654321"));
+    }
 
     @Override
     public List<Employee> findAll() {
-        return employees;
+        return new ArrayList<>(employeeMap.values());
     }
 
     @Override
     public Employee findById(UUID id) {
-        Optional<Employee> employee = employees.stream()
-                .filter(emp -> emp.getId().equals(id))
-                .findFirst();
-        return employee.orElse(null);
+        return employeeMap.get(id);
     }
 
     @Override
     public Employee save(Employee employee) {
         if (employee.getId() == null) {
+            // Tạo UUID mới nếu employee chưa có ID
             employee.setId(UUID.randomUUID());
-            employees.add(employee);
-        } else {
-            Employee existingEmployee = findById(employee.getId());
-            if (existingEmployee != null) {
-                int index = employees.indexOf(existingEmployee);
-                employees.set(index, employee);
-            }
         }
+        // Cập nhật hoặc thêm mới employee vào Map
+        employeeMap.put(employee.getId(), employee);
         return employee;
     }
 
     @Override
     public void deleteById(UUID id) {
-        employees.removeIf(emp -> emp.getId().equals(id));
+        // Xóa employee dựa vào ID
+        employeeMap.remove(id);
     }
 }
