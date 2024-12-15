@@ -6,12 +6,15 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.techzen.academy_pnv_12.models.Employee;
+import vn.techzen.academy_pnv_12.models.Gender;
 import vn.techzen.academy_pnv_12.repositories.interfaces.IEmployeeRepository;
 import vn.techzen.academy_pnv_12.services.interfaces.IEmployeeService;
 import vn.techzen.academy_pnv_12.dto.exception.AppException;
 import vn.techzen.academy_pnv_12.dto.exception.ErrorCode;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -45,15 +48,16 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
-
     @Override
     public Employee updateEmployee(Employee updatedEmployee) {
-        if (updatedEmployee.getId() == null || employeeRepository.findById(updatedEmployee.getId()) == null) {
-            throw new AppException(ErrorCode.UPDATE_FAILED);
-        }
-
-        return employeeRepository.save(updatedEmployee);
+        return Optional.ofNullable(employeeRepository.findById(updatedEmployee.getId()))
+                .map(existingEmployee -> {
+                    employeeRepository.save(updatedEmployee);
+                    return updatedEmployee;
+                })
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXIST));
     }
+
 
     @Override
     public void deleteEmployee(UUID id) {
@@ -62,5 +66,10 @@ public class EmployeeService implements IEmployeeService {
             throw new AppException(ErrorCode.USER_NOT_EXIST);
         }
         employeeRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Employee> filterEmployees(String name, LocalDate dobFrom, LocalDate dobTo, Gender gender, String salaryRange, String phone, Integer departmentId) {
+        return employeeRepository.filter(name, dobFrom, dobTo, gender, salaryRange, phone, departmentId);
     }
 }
