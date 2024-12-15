@@ -30,12 +30,14 @@ public class EmployeeController {
         return ResponseBuilder.build(data, "Get all employees successfully");
     }
 
+    @Tag(name = "Exercise")
     @GetMapping(path = "/{id}", headers = "apiKey=v1.0")
     public ResponseEntity<?> getEmployeeById(@PathVariable UUID id) {
         Employee data = employeeService.getEmployeeById(id);
         return ResponseBuilder.build(data, "Employee fetched successfully");
     }
 
+    @Tag(name = "Exercise")
     @PostMapping(value = "/", headers = "apiKey=v1.0")
     public ResponseEntity<?> addEmployee(@Valid @RequestBody Employee employee) {
             Employee data = employeeService.addEmployee(employee);
@@ -43,6 +45,7 @@ public class EmployeeController {
 
     }
 
+    @Tag(name = "Exercise")
     @PutMapping(path = "/{id}", headers = "apiKey=v1.0")
     public ResponseEntity<?> updateEmployee(@PathVariable UUID id, @Valid @RequestBody Employee updatedEmployee) {
             updatedEmployee.setId(id);
@@ -50,6 +53,7 @@ public class EmployeeController {
             return ResponseBuilder.build(data, "Employee updated successfully");
     }
 
+    @Tag(name = "Exercise")
     @DeleteMapping(path = "/{id}", headers = "apiKey=v1.0")
     public ResponseEntity<?> deleteEmployee(@PathVariable UUID id) {
             employeeService.deleteEmployee(id);
