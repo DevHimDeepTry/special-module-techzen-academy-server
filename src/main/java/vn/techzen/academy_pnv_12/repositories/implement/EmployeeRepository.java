@@ -3,6 +3,7 @@ package vn.techzen.academy_pnv_12.repositories.implement;
 import org.springframework.stereotype.Repository;
 import vn.techzen.academy_pnv_12.dto.exception.AppException;
 import vn.techzen.academy_pnv_12.dto.exception.ErrorCode;
+import vn.techzen.academy_pnv_12.dto.request.EmployeeSearchDTO;
 import vn.techzen.academy_pnv_12.models.Employee;
 import vn.techzen.academy_pnv_12.models.Gender;
 import vn.techzen.academy_pnv_12.repositories.interfaces.IEmployeeRepository;
@@ -28,17 +29,32 @@ public class EmployeeRepository implements IEmployeeRepository {
     }
 
     @Override
-    public List<Employee> filter(String name, LocalDate dobFrom, LocalDate dobTo, Gender gender, String salaryRange, String phone, Integer departmentId) {
+    public List<Employee> filter(EmployeeSearchDTO employeeSearchDTO) {
         return employeeMap.values().stream()
-                .filter(e -> name == null || name.isEmpty() || e.getName().toLowerCase().contains(name.toLowerCase()))
-                .filter(e -> dobFrom == null || !e.getDob().isBefore(dobFrom))
-                .filter(e -> dobTo == null || !e.getDob().isAfter(dobTo))
-                .filter(e -> gender == null || e.getGender() == gender)
-                .filter(e -> salaryRange == null || salaryRange.isEmpty() || filterBySalaryRange(e.getSalary(), salaryRange))
-                .filter(e -> phone == null || phone.isEmpty() || e.getPhone().contains(phone))
-                .filter(e -> departmentId == null || e.getDepartmentId().equals(departmentId))
+                .filter(e ->
+                        (employeeSearchDTO.getName() == null || employeeSearchDTO.getName().isEmpty() || e.getName().toLowerCase().contains(employeeSearchDTO.getName().toLowerCase()))
+                )
+                .filter(e ->
+                        employeeSearchDTO.getDobFrom() == null || !e.getDob().isBefore(employeeSearchDTO.getDobFrom())
+                )
+                .filter(e ->
+                        employeeSearchDTO.getDobTo() == null || !e.getDob().isAfter(employeeSearchDTO.getDobTo())
+                )
+                .filter(e ->
+                        employeeSearchDTO.getGender() == null || e.getGender() == employeeSearchDTO.getGender()
+                )
+                .filter(e ->
+                        employeeSearchDTO.getSalaryRange() == null || employeeSearchDTO.getSalaryRange().isEmpty() || filterBySalaryRange(e.getSalary(), employeeSearchDTO.getSalaryRange())
+                )
+                .filter(e ->
+                        employeeSearchDTO.getPhone() == null || employeeSearchDTO.getPhone().isEmpty() || e.getPhone().contains(employeeSearchDTO.getPhone())
+                )
+                .filter(e ->
+                        employeeSearchDTO.getDepartmentId() == null || e.getDepartmentId().equals(employeeSearchDTO.getDepartmentId())
+                )
                 .toList();
     }
+
 
     private boolean filterBySalaryRange(Double salary, String salaryRange) {
         if (salaryRange == null || salaryRange.isEmpty()) {

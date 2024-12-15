@@ -1,5 +1,6 @@
 package vn.techzen.academy_pnv_12.services.interfaces;
 
+import vn.techzen.academy_pnv_12.dto.request.EmployeeSearchDTO;
 import vn.techzen.academy_pnv_12.models.Employee;
 import vn.techzen.academy_pnv_12.models.Gender;
 
@@ -13,5 +14,5 @@ public interface IEmployeeService {
      Employee addEmployee(Employee employee);
      Employee updateEmployee(Employee employee);
      void deleteEmployee(UUID id);
-     List<Employee> filterEmployees(String name, LocalDate dobFrom, LocalDate dobTo, Gender gender, String salaryRange, String phone, Integer departmentId);
+     List<Employee> filterEmployees(EmployeeSearchDTO searchDTO);
 }
