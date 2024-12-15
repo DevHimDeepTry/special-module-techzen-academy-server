@@ -30,17 +30,18 @@ public class EmployeeRepository implements IEmployeeRepository {
     @Override
     public List<Employee> filter(String name, LocalDate dobFrom, LocalDate dobTo, Gender gender, String salaryRange, String phone, Integer departmentId) {
         return employeeMap.values().stream()
-                .filter(e -> name == null || e.getName().toLowerCase().contains(name.toLowerCase()))
+                .filter(e -> name == null || name.isEmpty() || e.getName().toLowerCase().contains(name.toLowerCase()))
                 .filter(e -> dobFrom == null || !e.getDob().isBefore(dobFrom))
                 .filter(e -> dobTo == null || !e.getDob().isAfter(dobTo))
                 .filter(e -> gender == null || e.getGender() == gender)
-                .filter(e -> salaryRange == null || filterBySalaryRange(e.getSalary(), salaryRange))
-                .filter(e -> phone == null || e.getPhone().contains(phone))
+                .filter(e -> salaryRange == null || salaryRange.isEmpty() || filterBySalaryRange(e.getSalary(), salaryRange))
+                .filter(e -> phone == null || phone.isEmpty() || e.getPhone().contains(phone))
                 .filter(e -> departmentId == null || e.getDepartmentId().equals(departmentId))
                 .toList();
     }
+
     private boolean filterBySalaryRange(Double salary, String salaryRange) {
-        if (salaryRange == null) {
+        if (salaryRange == null || salaryRange.isEmpty()) {
             return true;
         }
         switch (salaryRange) {
@@ -55,7 +56,6 @@ public class EmployeeRepository implements IEmployeeRepository {
             default:
                 return false;
         }
-
     }
 
     @Override
