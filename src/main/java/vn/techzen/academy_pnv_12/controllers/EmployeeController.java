@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.techzen.academy_pnv_12.dto.request.EmployeeSearchDTO;
 import vn.techzen.academy_pnv_12.dto.response.ResponseBuilder;
 import vn.techzen.academy_pnv_12.models.Employee;
 import vn.techzen.academy_pnv_12.models.Gender;
@@ -29,15 +30,9 @@ public class EmployeeController {
     @Tag(name = "Employee")
     @GetMapping(value = "/", headers = "apiKey=v1.0")
     public ResponseEntity<?> getAllEmployees(
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "dobFrom", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dobFrom,
-            @RequestParam(value = "dobTo", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dobTo,
-            @RequestParam(value = "gender", required = false) Gender gender,
-            @RequestParam(value = "salaryRange", required = false) String salaryRange,
-            @RequestParam(value = "phone", required = false) String phone,
-            @RequestParam(value = "departmentId", required = false) Integer departmentId
+            @Valid EmployeeSearchDTO searchDTO
     ) {
-        List<Employee> data = employeeService.filterEmployees(name, dobFrom, dobTo, gender, salaryRange, phone, departmentId);
+        List<Employee> data = employeeService.filterEmployees(searchDTO);
         return ResponseBuilder.build(data, "Filtered employees retrieved successfully");
     }
 

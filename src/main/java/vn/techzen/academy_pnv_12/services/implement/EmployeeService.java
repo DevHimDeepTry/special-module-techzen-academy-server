@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vn.techzen.academy_pnv_12.dto.request.EmployeeSearchDTO;
 import vn.techzen.academy_pnv_12.models.Employee;
 import vn.techzen.academy_pnv_12.models.Gender;
 import vn.techzen.academy_pnv_12.repositories.interfaces.IEmployeeRepository;
@@ -69,7 +70,7 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public List<Employee> filterEmployees(String name, LocalDate dobFrom, LocalDate dobTo, Gender gender, String salaryRange, String phone, Integer departmentId) {
-        return employeeRepository.filter(name, dobFrom, dobTo, gender, salaryRange, phone, departmentId);
+    public List<Employee> filterEmployees(EmployeeSearchDTO searchDTO) {
+        return employeeRepository.filter(searchDTO);
     }
 }
