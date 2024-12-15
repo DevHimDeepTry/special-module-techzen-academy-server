@@ -14,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum ErrorCode {
+    INVALID_SALARY_RANGE(UUID.randomUUID(), "Invalid Salary Range", HttpStatus.INTERNAL_SERVER_ERROR),
     CREATE_FAILED(UUID.randomUUID(), "Failed to create employee", HttpStatus.INTERNAL_SERVER_ERROR),
     UPDATE_FAILED(UUID.randomUUID(), "Update Failed", HttpStatus.BAD_REQUEST),
     WORD_NOT_EXIST(UUID.randomUUID(),"Word is not exist!", HttpStatus.NOT_FOUND),

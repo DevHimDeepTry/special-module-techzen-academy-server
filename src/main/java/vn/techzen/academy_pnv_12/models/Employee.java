@@ -18,9 +18,10 @@ import java.util.UUID;
 public class Employee {
     UUID id;
     String name;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     LocalDate dob;
     Gender gender;
     Double salary;
     String phone;
+    Integer departmentId;
 }
