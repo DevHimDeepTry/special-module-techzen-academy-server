@@ -2,67 +2,56 @@ package vn.techzen.academy_pnv_12.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.techzen.academy_pnv_12.dto.request.EmployeeSearchDTO;
 import vn.techzen.academy_pnv_12.dto.response.ResponseBuilder;
 import vn.techzen.academy_pnv_12.models.Employee;
-import vn.techzen.academy_pnv_12.models.Gender;
 import vn.techzen.academy_pnv_12.services.interfaces.IEmployeeService;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/employees")
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Slf4j
 @AllArgsConstructor
 public class EmployeeController {
 
-    IEmployeeService employeeService;
+    private final IEmployeeService employeeService;
 
     @Tag(name = "Employee")
     @GetMapping(value = "/", headers = "apiKey=v1.0")
-    public ResponseEntity<?> getAllEmployees(
-            @Valid EmployeeSearchDTO searchDTO
-    ) {
-        List<Employee> data = employeeService.filterEmployees(searchDTO);
+    public ResponseEntity<?> getAllEmployees(@Valid EmployeeSearchDTO searchDTO) {
+        List<Employee> data = employeeService.getAllEmployees(searchDTO);
         return ResponseBuilder.build(data, "Filtered employees retrieved successfully");
     }
 
-    @Tag(name = "Exercise")
+    @Tag(name = "Employee")
     @GetMapping(path = "/{id}", headers = "apiKey=v1.0")
-    public ResponseEntity<?> getEmployeeById(@PathVariable UUID id) {
+    public ResponseEntity<?> getEmployeeById(@PathVariable Integer id) {
         Employee data = employeeService.getEmployeeById(id);
         return ResponseBuilder.build(data, "Employee fetched successfully");
     }
 
-    @Tag(name = "Exercise")
+    @Tag(name = "Employee")
     @PostMapping(value = "/", headers = "apiKey=v1.0")
     public ResponseEntity<?> addEmployee(@Valid @RequestBody Employee employee) {
-            Employee data = employeeService.addEmployee(employee);
-            return ResponseBuilder.build(data, "Employee added successfully");
-
+        Employee data = employeeService.addEmployee(employee);
+        return ResponseBuilder.build(data, "Employee added successfully");
     }
 
-    @Tag(name = "Exercise")
+    @Tag(name = "Employee")
     @PutMapping(path = "/{id}", headers = "apiKey=v1.0")
-    public ResponseEntity<?> updateEmployee(@PathVariable UUID id, @Valid @RequestBody Employee updatedEmployee) {
-            updatedEmployee.setId(id);
-            Employee data = employeeService.updateEmployee(updatedEmployee);
-            return ResponseBuilder.build(data, "Employee updated successfully");
+    public ResponseEntity<?> updateEmployee(@PathVariable Integer id, @Valid @RequestBody Employee updatedEmployee) {
+        updatedEmployee.setId(id);
+        Employee data = employeeService.updateEmployee(updatedEmployee);
+        return ResponseBuilder.build(data, "Employee updated successfully");
     }
 
-    @Tag(name = "Exercise")
+    @Tag(name = "Employee")
     @DeleteMapping(path = "/{id}", headers = "apiKey=v1.0")
-    public ResponseEntity<?> deleteEmployee(@PathVariable UUID id) {
-            employeeService.deleteEmployee(id);
-            return ResponseBuilder.build(null, "Employee deleted successfully");
+    public ResponseEntity<?> deleteEmployee(@PathVariable Integer id) {
+        employeeService.deleteEmployee(id);
+        return ResponseBuilder.build(null, "Employee deleted successfully");
     }
 }

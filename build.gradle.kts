@@ -25,7 +25,11 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.flywaydb:flyway-core")
+	implementation("org.flywaydb:flyway-mysql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	runtimeOnly("com.mysql:mysql-connector-j")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3")
 	implementation ("org.springframework.boot:spring-boot-starter-validation")

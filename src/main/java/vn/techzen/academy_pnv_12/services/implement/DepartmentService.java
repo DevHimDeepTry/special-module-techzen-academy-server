@@ -3,7 +3,7 @@ package vn.techzen.academy_pnv_12.services.implement;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import vn.techzen.academy_pnv_12.models.Department;
-import vn.techzen.academy_pnv_12.repositories.interfaces.IDepartmentRepository;
+import vn.techzen.academy_pnv_12.repositories.JPArepo.IDepartmentRepository;
 import vn.techzen.academy_pnv_12.services.interfaces.IDepartmentService;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     public Department getDepartmentById(Integer id) {
-        return departmentRepository.findById(id);
+        return departmentRepository.findById(id).get();
     }
 
     @Override
