@@ -12,6 +12,7 @@ import vn.techzen.academy_pnv_12.dto.exception.ErrorCode;
 import vn.techzen.academy_pnv_12.models.Gender;
 import vn.techzen.academy_pnv_12.repositories.JPArepo.IEmployeeRepository;
 import vn.techzen.academy_pnv_12.services.interfaces.IEmployeeService;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,25 +21,18 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmployeeService implements IEmployeeService {
 
-      IEmployeeRepository employeeRepository;
+    IEmployeeRepository employeeRepository;
 
     @Override
     public List<Employee> getAllEmployees(EmployeeSearchDTO searchDTO) {
-        String name = searchDTO.getName();
-        LocalDate dobFrom = searchDTO.getDobFrom();
-        LocalDate dobTo = searchDTO.getDobTo();
-        Gender gender = searchDTO.getGender();
-        String salaryRange = searchDTO.getSalaryRange();
-        String phone = searchDTO.getPhone();
-        Integer departmentId = searchDTO.getDepartmentId();
         return employeeRepository.filter(
-            name,
-            dobFrom,
-            dobTo,
-            gender,
-            salaryRange,
-            phone,
-            departmentId
+                searchDTO.getName(),
+                searchDTO.getDobFrom(),
+                searchDTO.getDobTo(),
+                searchDTO.getGender(),
+                searchDTO.getSalaryRange(),
+                searchDTO.getPhone(),
+                searchDTO.getDepartmentId()
         );
     }
 

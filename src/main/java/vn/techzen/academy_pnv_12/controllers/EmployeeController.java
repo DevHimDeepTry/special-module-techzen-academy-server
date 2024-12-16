@@ -13,14 +13,14 @@ import vn.techzen.academy_pnv_12.services.interfaces.IEmployeeService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/employees")
+@RequestMapping("/api/v1/employees")
 @AllArgsConstructor
 public class EmployeeController {
 
     private final IEmployeeService employeeService;
 
     @Tag(name = "Employee")
-    @GetMapping(value = "/", headers = "apiKey=v1.0")
+    @GetMapping(headers = "apiKey=v1.0")
     public ResponseEntity<?> getAllEmployees(@Valid EmployeeSearchDTO searchDTO) {
         List<Employee> data = employeeService.getAllEmployees(searchDTO);
         return ResponseBuilder.build(data, "Filtered employees retrieved successfully");
@@ -34,7 +34,7 @@ public class EmployeeController {
     }
 
     @Tag(name = "Employee")
-    @PostMapping(value = "/", headers = "apiKey=v1.0")
+    @PostMapping(headers = "apiKey=v1.0")
     public ResponseEntity<?> addEmployee(@Valid @RequestBody Employee employee) {
         Employee data = employeeService.addEmployee(employee);
         return ResponseBuilder.build(data, "Employee added successfully");
