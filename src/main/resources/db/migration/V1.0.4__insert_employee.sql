@@ -28,3 +28,103 @@ VALUES
      'FEMALE',
      '0672397846',
      3);
+INSERT
+INTO employee
+(name, dob, salary, gender, phone, department_id)
+VALUES
+    ('Dev',
+     '2024-12-09',
+     1234567,
+     'FEMALE',
+     '0672397846',
+     3);
+INSERT
+INTO employee
+(name, dob, salary, gender, phone, department_id)
+VALUES
+    ('Dev',
+     '2024-12-09',
+     1234567,
+     'FEMALE',
+     '0672397846',
+     3);
+INSERT
+INTO employee
+(name, dob, salary, gender, phone, department_id)
+VALUES
+    ('Dev',
+     '2024-12-09',
+     1234567,
+     'FEMALE',
+     '0672397846',
+     3);
+INSERT
+INTO employee
+(name, dob, salary, gender, phone, department_id)
+VALUES
+    ('Dev',
+     '2024-12-09',
+     1234567,
+     'FEMALE',
+     '0672397846',
+     3);
+INSERT
+INTO employee
+(name, dob, salary, gender, phone, department_id)
+VALUES
+    ('Dev',
+     '2024-12-09',
+     1234567,
+     'FEMALE',
+     '0672397846',
+     3);
+INSERT
+INTO employee
+(name, dob, salary, gender, phone, department_id)
+VALUES
+    ('Dev',
+     '2024-12-09',
+     1234567,
+     'FEMALE',
+     '0672397846',
+     3);
+INSERT
+INTO employee
+(name, dob, salary, gender, phone, department_id)
+VALUES
+    ('Dev',
+     '2024-12-09',
+     1234567,
+     'FEMALE',
+     '0672397846',
+     3);
+INSERT
+INTO employee
+(name, dob, salary, gender, phone, department_id)
+VALUES
+    ('Dev',
+     '2024-12-09',
+     1234567,
+     'FEMALE',
+     '0672397846',
+     3);
+INSERT
+INTO employee
+(name, dob, salary, gender, phone, department_id)
+VALUES
+    ('Dev',
+     '2024-12-09',
+     1234567,
+     'FEMALE',
+     '0672397846',
+     3);
+INSERT
+INTO employee
+(name, dob, salary, gender, phone, department_id)
+VALUES
+    ('Dev',
+     '2024-12-09',
+     1234567,
+     'FEMALE',
+     '0672397846',
+     3);

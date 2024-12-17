@@ -4,24 +4,21 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import java.util.Set;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
-public class Student {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Long id;
+
     String name;
-    int score;
 
-    @ManyToOne
-    Clazz clazz;
-
-    @OneToMany(mappedBy = "student")
-    List<Result> results;
+    @ManyToMany(mappedBy = "roles")
+    Set<User> user;
 }

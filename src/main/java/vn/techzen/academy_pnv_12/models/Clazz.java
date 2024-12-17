@@ -1,27 +1,24 @@
 package vn.techzen.academy_pnv_12.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
-public class Student {
+public class Clazz {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Long id;
     String name;
-    int score;
 
-    @ManyToOne
-    Clazz clazz;
-
-    @OneToMany(mappedBy = "student")
-    List<Result> results;
+    @OneToMany(mappedBy = "clazz")
+    List<Student> student;
 }

@@ -3,6 +3,8 @@ package vn.techzen.academy_pnv_12.services.implement;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.techzen.academy_pnv_12.dto.request.EmployeeSearchDTO;
@@ -24,7 +26,7 @@ public class EmployeeService implements IEmployeeService {
     IEmployeeRepository employeeRepository;
 
     @Override
-    public List<Employee> getAllEmployees(EmployeeSearchDTO searchDTO) {
+    public Page<Employee> getAllEmployees(EmployeeSearchDTO searchDTO, Pageable pageable) {
         return employeeRepository.filter(
                 searchDTO.getName(),
                 searchDTO.getDobFrom(),
@@ -32,7 +34,8 @@ public class EmployeeService implements IEmployeeService {
                 searchDTO.getGender(),
                 searchDTO.getSalaryRange(),
                 searchDTO.getPhone(),
-                searchDTO.getDepartmentId()
+                searchDTO.getDepartmentId(),
+                pageable
         );
     }
 

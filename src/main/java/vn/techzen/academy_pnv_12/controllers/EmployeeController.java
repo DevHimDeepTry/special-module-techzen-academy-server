@@ -3,9 +3,13 @@ package vn.techzen.academy_pnv_12.controllers;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.techzen.academy_pnv_12.dto.request.EmployeeSearchDTO;
+import vn.techzen.academy_pnv_12.dto.response.PaginatedResponse;
 import vn.techzen.academy_pnv_12.dto.response.ResponseBuilder;
 import vn.techzen.academy_pnv_12.models.Employee;
 import vn.techzen.academy_pnv_12.services.interfaces.IEmployeeService;
@@ -21,9 +25,15 @@ public class EmployeeController {
 
     @Tag(name = "Employee")
     @GetMapping(headers = "apiKey=v1.0")
-    public ResponseEntity<?> getAllEmployees(@Valid EmployeeSearchDTO searchDTO) {
-        List<Employee> data = employeeService.getAllEmployees(searchDTO);
-        return ResponseBuilder.build(data, "Filtered employees retrieved successfully");
+    public ResponseEntity<?> getAllEmployees(
+            @Valid EmployeeSearchDTO searchDTO,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Employee> data = employeeService.getAllEmployees(searchDTO, pageable);
+        PaginatedResponse<Employee> res = new PaginatedResponse<>(data);
+        return ResponseBuilder.build(res, "Filtered employees retrieved successfully");
     }
 
     @Tag(name = "Employee")

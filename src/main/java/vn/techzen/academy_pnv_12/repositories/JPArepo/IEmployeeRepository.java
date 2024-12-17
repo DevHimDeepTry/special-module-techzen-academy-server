@@ -1,15 +1,17 @@
 package vn.techzen.academy_pnv_12.repositories.JPArepo;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import vn.techzen.academy_pnv_12.models.Employee;
 import vn.techzen.academy_pnv_12.models.Gender;
 
 import java.time.LocalDate;
-import java.util.List;
 
-public interface IEmployeeRepository extends JpaRepository<Employee, Integer> {
+public interface IEmployeeRepository extends JpaRepository<Employee, Integer>, JpaSpecificationExecutor<Employee> {
      @Query("""
         FROM Employee
         WHERE (:name IS NULL OR LOWER(name) LIKE LOWER(CONCAT('%', :name, '%')))
@@ -27,13 +29,14 @@ public interface IEmployeeRepository extends JpaRepository<Employee, Integer> {
         AND (:phone IS NULL OR phone LIKE CONCAT('%', :phone, '%'))
         AND (:departmentId IS NULL OR department.id = :departmentId)
     """)
-     List<Employee> filter(
+     Page<Employee> filter(
              @Param("name") String name,
              @Param("dobFrom") LocalDate dobFrom,
              @Param("dobTo") LocalDate dobTo,
              @Param("gender") Gender gender,
              @Param("salaryRange") String salaryRange,
              @Param("phone") String phone,
-             @Param("departmentId") Integer departmentId
+             @Param("departmentId") Integer departmentId,
+             Pageable pageable
      );
 }

@@ -1,10 +1,10 @@
 package vn.techzen.academy_pnv_12.models;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.List;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Getter
 @Setter
@@ -12,16 +12,18 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Student {
+public class Result {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String name;
-    int score;
+    Long id;
 
+    @UniqueElements
     @ManyToOne
-    Clazz clazz;
+    Student student;
 
-    @OneToMany(mappedBy = "student")
-    List<Result> results;
+    @UniqueElements
+    @ManyToOne
+    Subject subject;
+
+    String year;
 }
